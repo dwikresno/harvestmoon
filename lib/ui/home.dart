@@ -1,0 +1,254 @@
+// ignore_for_file: sized_box_for_whitespace, prefer_const_constructors, avoid_unnecessary_containers, unused_field, avoid_print
+
+import 'dart:async';
+
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:harvestmoon/controller/map_contoller.dart';
+import 'package:harvestmoon/controller/player_controller.dart';
+import 'package:harvestmoon/model/map/TypeMapModel.dart';
+import 'package:harvestmoon/model/player/DirectionPlayerModel.dart';
+import 'package:harvestmoon/ui/map/intro.dart';
+import 'package:harvestmoon/ui/map/my_farm.dart';
+
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  //controller
+  MapController mapController = Get.put(MapController());
+  PlayerController playerController = Get.put(PlayerController());
+  double sizeArrow = 28;
+  Timer? timeAction;
+
+  @override
+  Widget build(BuildContext context) {
+    var height = MediaQuery.of(context).size.height;
+    return Scaffold(
+      body: SafeArea(
+        right: true,
+        child: Container(
+          child: Row(
+            children: [
+              Expanded(
+                flex: 2,
+                child: Container(
+                  margin: EdgeInsets.only(top: 50),
+                  height: MediaQuery.of(context).size.height / 2,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Listener(
+                        onPointerDown: (details) {
+                          timeAction = Timer.periodic(
+                              Duration(milliseconds: 200), (timer) {
+                            setState(() {
+                              playerController.move(
+                                  directionParam: DirectionPlayerModel.left);
+                            });
+                          });
+                        },
+                        onPointerUp: (details) {
+                          setState(() {
+                            playerController.stop();
+                            timeAction!.cancel();
+                          });
+                        },
+                        child: Container(
+                          child: Icon(
+                            Icons.arrow_left,
+                            size: sizeArrow,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Listener(
+                              onPointerDown: (details) {
+                                timeAction = Timer.periodic(
+                                    Duration(milliseconds: 200), (timer) {
+                                  setState(() {
+                                    playerController.move(
+                                        directionParam:
+                                            DirectionPlayerModel.up);
+                                  });
+                                });
+                              },
+                              onPointerUp: (details) {
+                                setState(() {
+                                  playerController.stop();
+                                  timeAction!.cancel();
+                                });
+                              },
+                              child: Container(
+                                child: Icon(
+                                  Icons.arrow_drop_up,
+                                  size: sizeArrow,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: sizeArrow,
+                            ),
+                            Listener(
+                              onPointerDown: (details) {
+                                timeAction = Timer.periodic(
+                                    Duration(milliseconds: 200), (timer) {
+                                  setState(() {
+                                    playerController.move(
+                                        directionParam:
+                                            DirectionPlayerModel.down);
+                                  });
+                                });
+                              },
+                              onPointerUp: (details) {
+                                setState(() {
+                                  playerController.stop();
+                                  timeAction!.cancel();
+                                });
+                              },
+                              child: Container(
+                                child: Icon(
+                                  Icons.arrow_drop_down,
+                                  size: sizeArrow,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Listener(
+                        onPointerDown: (details) {
+                          timeAction = Timer.periodic(
+                              Duration(milliseconds: 200), (timer) {
+                            setState(() {
+                              playerController.move(
+                                  directionParam: DirectionPlayerModel.right);
+                            });
+                          });
+                        },
+                        onPointerUp: (details) {
+                          setState(() {
+                            playerController.stop();
+                            timeAction!.cancel();
+                          });
+                        },
+                        child: Container(
+                          child: Icon(
+                            Icons.arrow_right,
+                            size: sizeArrow,
+                            color: Colors.white,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              AnimatedSwitcher(
+                duration: const Duration(milliseconds: 200),
+                child: Container(
+                  key: ValueKey<String>(mapController.currentMap),
+                  width: height * 1.50, //this maybe not same for every device
+                  height: height,
+                  child: switchMap(),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 5),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        if (mapController.isIntroDone) {
+                          setState(() {
+                            mapController.setCurrentMap(TypeMapModel.yourFarm);
+                            print("Trace new map ${mapController.currentMap}");
+                          });
+                        }
+                      },
+                      child: Container(
+                        height: 50,
+                        width: 50,
+                        decoration: BoxDecoration(
+                          color: Colors.blue,
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        child: Center(
+                          child: Text(
+                            "B",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 30,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          mapController.setCurrentMap(TypeMapModel.intro);
+                          print("Trace new map ${mapController.currentMap}");
+                        });
+                      },
+                      child: Container(
+                        height: 50,
+                        width: 50,
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        child: Center(
+                          child: Text(
+                            "A",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 30,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget switchMap() {
+    Widget? result;
+    switch (mapController.currentMap) {
+      case TypeMapModel.intro:
+        result = IntroPage();
+        break;
+      case TypeMapModel.yourFarm:
+        result = MyFarm();
+        break;
+      default:
+        result = Container();
+        break;
+    }
+    return result;
+  }
+}
