@@ -4,14 +4,14 @@ import 'package:harvestmoon/controller/player_controller.dart';
 import 'package:harvestmoon/controller/season_controller.dart';
 import 'package:harvestmoon/ui/player.dart';
 
-class MyFarm extends StatefulWidget {
-  const MyFarm({super.key});
+class MyHouse extends StatefulWidget {
+  const MyHouse({super.key});
 
   @override
-  State<MyFarm> createState() => _MyFarmState();
+  State<MyHouse> createState() => _MyHouseState();
 }
 
-class _MyFarmState extends State<MyFarm> {
+class _MyHouseState extends State<MyHouse> {
   PlayerController playerController = Get.put(PlayerController());
   SeasonController seasonController = Get.put(SeasonController());
   @override
@@ -21,11 +21,11 @@ class _MyFarmState extends State<MyFarm> {
         alignment: Alignment.center,
         children: [
           Positioned(
-            top: playerController.mapY,
             left: playerController.mapX,
+            top: playerController.mapY,
             child: Container(
               child: Image.asset(
-                "assets/map/my-farm/my-farm-${seasonController.currentSeason}.png",
+                "assets/map/house/my-house.png",
                 scale: 0.4,
                 fit: BoxFit.cover,
               ),

@@ -10,6 +10,7 @@ import 'package:harvestmoon/model/map/TypeMapModel.dart';
 import 'package:harvestmoon/model/player/DirectionPlayerModel.dart';
 import 'package:harvestmoon/ui/map/intro.dart';
 import 'package:harvestmoon/ui/map/my_farm.dart';
+import 'package:harvestmoon/ui/map/my_house.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -35,7 +36,6 @@ class _HomePageState extends State<HomePage> {
           child: Row(
             children: [
               Expanded(
-                flex: 2,
                 child: Container(
                   margin: EdgeInsets.only(top: 50),
                   height: MediaQuery.of(context).size.height / 2,
@@ -159,74 +159,78 @@ class _HomePageState extends State<HomePage> {
               AnimatedSwitcher(
                 duration: const Duration(milliseconds: 200),
                 child: Container(
+                  color: Colors.amber,
                   key: ValueKey<String>(mapController.currentMap),
                   width: height * 1.50, //this maybe not same for every device
                   height: height,
                   child: switchMap(),
                 ),
               ),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 5),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        if (mapController.isIntroDone) {
+              Expanded(
+                child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: 5),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          if (mapController.isIntroDone) {
+                            setState(() {
+                              mapController.setCurrentMap(TypeMapModel.myFarm);
+                              print(
+                                  "Trace new map ${mapController.currentMap}");
+                            });
+                          }
+                        },
+                        child: Container(
+                          height: 50,
+                          width: 50,
+                          decoration: BoxDecoration(
+                            color: Colors.blue,
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "B",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 30,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      GestureDetector(
+                        onTap: () {
                           setState(() {
-                            mapController.setCurrentMap(TypeMapModel.yourFarm);
+                            mapController.setCurrentMap(TypeMapModel.intro);
                             print("Trace new map ${mapController.currentMap}");
                           });
-                        }
-                      },
-                      child: Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(
-                          color: Colors.blue,
-                          borderRadius: BorderRadius.circular(50),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "B",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 30,
+                        },
+                        child: Container(
+                          height: 50,
+                          width: 50,
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "A",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 30,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          mapController.setCurrentMap(TypeMapModel.intro);
-                          print("Trace new map ${mapController.currentMap}");
-                        });
-                      },
-                      child: Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(
-                          color: Colors.red,
-                          borderRadius: BorderRadius.circular(50),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "A",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 30,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ],
@@ -242,8 +246,11 @@ class _HomePageState extends State<HomePage> {
       case TypeMapModel.intro:
         result = IntroPage();
         break;
-      case TypeMapModel.yourFarm:
+      case TypeMapModel.myFarm:
         result = MyFarm();
+        break;
+      case TypeMapModel.myHouse:
+        result = MyHouse();
         break;
       default:
         result = Container();

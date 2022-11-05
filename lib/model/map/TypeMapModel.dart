@@ -2,5 +2,6 @@
 
 class TypeMapModel {
   static const intro = "intro";
-  static const yourFarm = "your_farm";
+  static const myFarm = "my_farm";
+  static const myHouse = "my_house";
 }
