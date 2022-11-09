@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:harvestmoon/controller/map_contoller.dart';
 import 'package:harvestmoon/controller/player_controller.dart';
 import 'package:harvestmoon/controller/season_controller.dart';
 import 'package:harvestmoon/ui/player.dart';
@@ -14,6 +15,14 @@ class MyFarm extends StatefulWidget {
 class _MyFarmState extends State<MyFarm> {
   PlayerController playerController = Get.put(PlayerController());
   SeasonController seasonController = Get.put(SeasonController());
+  MapController mapController = Get.put(MapController());
+
+  @override
+  void initState() {
+    mapController.setAreaFarm();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -21,16 +30,69 @@ class _MyFarmState extends State<MyFarm> {
         alignment: Alignment.center,
         children: [
           Positioned(
-            top: playerController.mapY,
             left: playerController.mapX,
-            child: Container(
-              child: Image.asset(
-                "assets/map/my-farm/my-farm-${seasonController.currentSeason}.png",
-                scale: 0.4,
-                fit: BoxFit.cover,
-              ),
+            top: playerController.mapY,
+            child: Stack(
+              children: [
+                Container(
+                  // width: double.infinity,
+                  // height: double.infinity,
+                  child: Image.asset(
+                    "assets/map/my-farm/my-farm-${seasonController.currentSeason}.png",
+                    scale: mapController.mapScale,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                for (var wildList in mapController.listWildThing)
+                  //   MovieWidget(model: MovieModel.fromJson(movie)),
+                  Positioned(
+                    left: wildList.x,
+                    top: wildList.y,
+                    child: Container(
+                      child: Image.asset(
+                        "assets/map/my-farm/wild/${wildList.type}-1.png",
+                        scale: mapController.mapScale,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                // Positioned(
+                //   left: 1170,
+                //   top: 450,
+                //   child: Container(
+                //     child: Image.asset(
+                //       "assets/map/my-farm/wild/stone-1.png",
+                //       scale: mapController.mapScale,
+                //       fit: BoxFit.cover,
+                //     ),
+                //   ),
+                // ),
+                // Positioned(
+                //   left: 1170,
+                //   top: 750,
+                //   child: Container(
+                //     child: Image.asset(
+                //       "assets/map/my-farm/wild/weeds-1.png",
+                //       scale: mapController.mapScale,
+                //       fit: BoxFit.cover,
+                //     ),
+                //   ),
+                // ),
+                // Positioned(
+                //   left: 690,
+                //   top: 750,
+                //   child: Container(
+                //     child: Image.asset(
+                //       "assets/map/my-farm/wild/weeds-1.png",
+                //       scale: mapController.mapScale,
+                //       fit: BoxFit.cover,
+                //     ),
+                //   ),
+                // ),
+              ],
             ),
           ),
+
           // Container(
           //   width: 20,
           //   height: 20,

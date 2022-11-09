@@ -168,11 +168,109 @@ class _HomePageState extends State<HomePage> {
               ),
               Expanded(
                 child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 5),
+                  margin: EdgeInsets.symmetric(horizontal: 0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      GestureDetector(
+                        onTap: () {
+                          mapController.clearAreaFarm();
+                          print("trace area X: ${mapController.areaX}");
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.blue,
+                            // borderRadius: BorderRadius.circular(50),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "Clear Area",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          mapController.setAreaFarm();
+                          print("trace area X: ${mapController.areaX}");
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.blue,
+                            // borderRadius: BorderRadius.circular(50),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "Set Area",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            mapController.spawnWildThing();
+                          });
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.blue,
+                            // borderRadius: BorderRadius.circular(50),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "Spawn Wild Thing",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            mapController.clearSpawWildThing();
+                          });
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.blue,
+                            // borderRadius: BorderRadius.circular(50),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "Clear Wild Thing",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 50,
+                      ),
                       GestureDetector(
                         onTap: () {
                           if (mapController.isIntroDone) {
