@@ -48,47 +48,33 @@ class _MyFarmState extends State<MyFarm> {
                   Positioned(
                     left: wildList.x,
                     top: wildList.y,
-                    child: Container(
-                      child: Image.asset(
-                        "assets/map/my-farm/wild/${wildList.type}-1.png",
-                        scale: mapController.mapScale,
-                        fit: BoxFit.cover,
-                      ),
+                    child: Stack(
+                      children: [
+                        Container(
+                          child: Image.asset(
+                            "assets/map/my-farm/wild/${wildList.type}-${wildList.indicator}.png",
+                            scale: mapController.mapScale,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        // Column(
+                        //   children: [
+                        //     Text("${wildList.x}"),
+                        //     Text("${wildList.y}"),
+                        //   ],
+                        // )
+                      ],
                     ),
                   ),
-                // Positioned(
-                //   left: 1170,
-                //   top: 450,
-                //   child: Container(
-                //     child: Image.asset(
-                //       "assets/map/my-farm/wild/stone-1.png",
-                //       scale: mapController.mapScale,
-                //       fit: BoxFit.cover,
-                //     ),
-                //   ),
-                // ),
-                // Positioned(
-                //   left: 1170,
-                //   top: 750,
-                //   child: Container(
-                //     child: Image.asset(
-                //       "assets/map/my-farm/wild/weeds-1.png",
-                //       scale: mapController.mapScale,
-                //       fit: BoxFit.cover,
-                //     ),
-                //   ),
-                // ),
-                // Positioned(
-                //   left: 690,
-                //   top: 750,
-                //   child: Container(
-                //     child: Image.asset(
-                //       "assets/map/my-farm/wild/weeds-1.png",
-                //       scale: mapController.mapScale,
-                //       fit: BoxFit.cover,
-                //     ),
-                //   ),
-                // ),
+                Positioned(
+                  left: playerController.playerXMap,
+                  top: playerController.playerYMap,
+                  child: Container(
+                    width: 25,
+                    height: 25,
+                    color: Colors.transparent,
+                  ),
+                )
               ],
             ),
           ),

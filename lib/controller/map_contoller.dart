@@ -21,6 +21,7 @@ class MapController extends GetxController {
   List areaY = [];
   double minXFarm = 690;
   double minYFarm = 450;
+  int indicatorWildThing = 1;
 
   setCurrentMap(String newMap) {
     currentMap = newMap;
@@ -65,6 +66,7 @@ class MapController extends GetxController {
       "x": tempX,
       "y": tempY,
       "type": randomType,
+      "indicator": 1,
     };
     if (listWildThing
             .where((element) =>
@@ -73,7 +75,6 @@ class MapController extends GetxController {
         0) {
       listWildThing.add(WildThingModel.fromJson(jsonTemp));
     }
-
     print("area spawns : ${jsonEncode(listWildThing)}");
   }
 }

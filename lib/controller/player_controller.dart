@@ -9,9 +9,9 @@ import 'package:harvestmoon/model/player/DirectionPlayerModel.dart';
 class PlayerController extends GetxController {
   bool isStopRun = false;
   bool isStopWhistle = true;
-  double playerXCenter = 270;
+  double playerXCenter = 245;
   double playerYCenter = 170;
-  double playerX = 270;
+  double playerX = 245;
   double playerY = 170;
   String action = ActionPlayer.walk;
   String direction = DirectionPlayerModel.down;
@@ -21,6 +21,9 @@ class PlayerController extends GetxController {
   bool isLast = false;
   MapController mapController = Get.put(MapController());
   int longStep = 15; // change this if wanna move long distance
+  double playerXMap = 560;
+  double playerYMap = 280;
+  int indexWildThingRemove = 0;
 
   move({action = ActionPlayer.walk, required directionParam}) {
     switch (directionParam) {
@@ -40,6 +43,7 @@ class PlayerController extends GetxController {
             mapY += longStep;
           }
         }
+        playerYMap -= longStep;
         break;
       case DirectionPlayerModel.down:
         direction = DirectionPlayerModel.down;
@@ -56,6 +60,7 @@ class PlayerController extends GetxController {
             mapY -= longStep;
           }
         }
+        playerYMap += longStep;
         break;
       case DirectionPlayerModel.left:
         direction = DirectionPlayerModel.left;
@@ -81,6 +86,7 @@ class PlayerController extends GetxController {
             mapX += longStep;
           }
         }
+        playerXMap -= longStep;
         break;
       case DirectionPlayerModel.right:
         direction = DirectionPlayerModel.right;
@@ -106,13 +112,14 @@ class PlayerController extends GetxController {
             mapX -= longStep;
           }
         }
-
+        playerXMap += longStep;
         break;
       default:
         print("other");
         break;
     }
-
+    print("player X Map: $playerXMap");
+    print("player Y Map: $playerYMap");
     print("player X : $playerX");
     print("player Y : $playerY");
     print("Map X : $mapX");
@@ -179,5 +186,31 @@ class PlayerController extends GetxController {
   stop() {
     indicatorCharacter =
         2; //default start number for every direction,stand up position
+  }
+
+  checkFront() {
+    switch (direction) {
+      case DirectionPlayerModel.down:
+        indexWildThingRemove = mapController.listWildThing.indexWhere(
+            (element) =>
+                (playerXMap - element.x!).abs() < 20 &&
+                ((playerYMap + 50) - element.y!).abs() < 35);
+        print(indexWildThingRemove);
+        break;
+      case DirectionPlayerModel.up:
+        indexWildThingRemove = mapController.listWildThing.indexWhere(
+            (element) =>
+                (playerXMap - element.x!).abs() < 20 &&
+                ((playerYMap - 50) - element.y!).abs() < 35);
+        print(indexWildThingRemove);
+        break;
+      default:
+        break;
+    }
+    if (indexWildThingRemove >= 0) {
+      isStopRun = true;
+      action = ActionPlayer.scythe;
+      indicatorCharacter = 1;
+    }
   }
 }

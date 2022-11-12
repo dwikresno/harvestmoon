@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:harvestmoon/controller/map_contoller.dart';
 import 'package:harvestmoon/controller/player_controller.dart';
 import 'package:harvestmoon/model/map/TypeMapModel.dart';
+import 'package:harvestmoon/model/player/ActionPlayer.dart';
 import 'package:harvestmoon/model/player/DirectionPlayerModel.dart';
 import 'package:harvestmoon/ui/map/intro.dart';
 import 'package:harvestmoon/ui/map/my_farm.dart';
@@ -179,6 +180,7 @@ class _HomePageState extends State<HomePage> {
                           print("trace area X: ${mapController.areaX}");
                         },
                         child: Container(
+                          padding: EdgeInsets.symmetric(vertical: 5),
                           decoration: BoxDecoration(
                             color: Colors.blue,
                             // borderRadius: BorderRadius.circular(50),
@@ -203,6 +205,7 @@ class _HomePageState extends State<HomePage> {
                           print("trace area X: ${mapController.areaX}");
                         },
                         child: Container(
+                          padding: EdgeInsets.symmetric(vertical: 5),
                           decoration: BoxDecoration(
                             color: Colors.blue,
                             // borderRadius: BorderRadius.circular(50),
@@ -228,6 +231,7 @@ class _HomePageState extends State<HomePage> {
                           });
                         },
                         child: Container(
+                          padding: EdgeInsets.symmetric(vertical: 5),
                           decoration: BoxDecoration(
                             color: Colors.blue,
                             // borderRadius: BorderRadius.circular(50),
@@ -253,6 +257,7 @@ class _HomePageState extends State<HomePage> {
                           });
                         },
                         child: Container(
+                          padding: EdgeInsets.symmetric(vertical: 5),
                           decoration: BoxDecoration(
                             color: Colors.blue,
                             // borderRadius: BorderRadius.circular(50),
@@ -273,12 +278,55 @@ class _HomePageState extends State<HomePage> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          if (mapController.isIntroDone) {
-                            setState(() {
-                              mapController.setCurrentMap(TypeMapModel.myFarm);
-                              print(
-                                  "Trace new map ${mapController.currentMap}");
-                            });
+                          if (mapController.currentMap == TypeMapModel.intro) {
+                            if (mapController.isIntroDone) {
+                              setState(() {
+                                mapController
+                                    .setCurrentMap(TypeMapModel.myFarm);
+                                print(
+                                    "Trace new map ${mapController.currentMap}");
+                              });
+                            }
+                          } else {
+                            playerController.checkFront();
+                            if (playerController.indexWildThingRemove >= 0) {
+                              playerController.indicatorCharacter = 1;
+                              Timer.periodic(Duration(milliseconds: 100),
+                                  (timer) {
+                                setState(() {
+                                  playerController.indicatorCharacter += 1;
+                                });
+                                if (playerController.indicatorCharacter == 5) {
+                                  setState(() {
+                                    playerController.isStopRun = false;
+                                    playerController.action = ActionPlayer.walk;
+                                    playerController.indicatorCharacter = 2;
+                                    timer.cancel();
+                                    Timer.periodic(Duration(milliseconds: 100),
+                                        (timer1) {
+                                      setState(() {
+                                        mapController.listWildThing
+                                            .elementAt(playerController
+                                                .indexWildThingRemove)
+                                            .indicator += 1;
+                                      });
+                                      if (mapController.listWildThing
+                                              .elementAt(playerController
+                                                  .indexWildThingRemove)
+                                              .indicator ==
+                                          3) {
+                                        setState(() {
+                                          mapController.listWildThing.removeAt(
+                                              playerController
+                                                  .indexWildThingRemove);
+                                          timer1.cancel();
+                                        });
+                                      }
+                                    });
+                                  });
+                                }
+                              });
+                            }
                           }
                         },
                         child: Container(
