@@ -26,6 +26,10 @@ class _HomePageState extends State<HomePage> {
   PlayerController playerController = Get.put(PlayerController());
   double sizeArrow = 28;
   Timer? timeAction;
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -353,7 +357,7 @@ class _HomePageState extends State<HomePage> {
                       GestureDetector(
                         onTap: () {
                           setState(() {
-                            mapController.setCurrentMap(TypeMapModel.intro);
+                            // mapController.setCurrentMap(TypeMapModel.intro);
                             print("Trace new map ${mapController.currentMap}");
                           });
                         },

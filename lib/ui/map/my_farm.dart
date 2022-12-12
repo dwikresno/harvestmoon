@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:harvestmoon/controller/map_contoller.dart';
@@ -20,6 +22,15 @@ class _MyFarmState extends State<MyFarm> {
   @override
   void initState() {
     mapController.setAreaFarm();
+    Timer.periodic(Duration(milliseconds: 100), (timer) {
+      setState(() {
+        if (mapController.indicatorWaterWheel < 4) {
+          mapController.indicatorWaterWheel++;
+        } else {
+          mapController.indicatorWaterWheel = 1;
+        }
+      });
+    });
     super.initState();
   }
 
@@ -48,24 +59,25 @@ class _MyFarmState extends State<MyFarm> {
                   Positioned(
                     left: wildList.x,
                     top: wildList.y,
-                    child: Stack(
-                      children: [
-                        Container(
-                          child: Image.asset(
-                            "assets/map/my-farm/wild/${wildList.type}-${wildList.indicator}.png",
-                            scale: mapController.mapScale,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        // Column(
-                        //   children: [
-                        //     Text("${wildList.x}"),
-                        //     Text("${wildList.y}"),
-                        //   ],
-                        // )
-                      ],
+                    child: Container(
+                      child: Image.asset(
+                        "assets/map/my-farm/wild/${wildList.type}-${wildList.indicator}.png",
+                        scale: mapController.mapScale,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
+                Positioned(
+                  left: 100,
+                  bottom: 480,
+                  child: Container(
+                    child: Image.asset(
+                      "assets/waterwheel-${mapController.indicatorWaterWheel}.png",
+                      scale: mapController.mapScale,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
                 Positioned(
                   left: playerController.playerXMap,
                   top: playerController.playerYMap,

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
@@ -22,6 +23,7 @@ class MapController extends GetxController {
   double minXFarm = 690;
   double minYFarm = 450;
   int indicatorWildThing = 1;
+  int indicatorWaterWheel = 1;
 
   setCurrentMap(String newMap) {
     currentMap = newMap;
